@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+//#include "binTreeStrings.h"
 
 struct node {
     int key_value;
@@ -77,8 +78,7 @@ int main() {
     } else {
         printf("File opened successfully!\n");
         int input;
-        while (fscanf(myFile, "%d", &input) != EOF)
-        {
+        while (fscanf(myFile, "%d", &input) != EOF) {
             insert(input, &root);
             printf("%d...", input);
         }
