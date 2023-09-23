@@ -11,6 +11,7 @@ struct node {
     char* stringArr[MAX_SIZE];
     int stringLength;
     int numStrings;
+    int depth;
     struct node *left;
     struct node *right;
 };
@@ -26,18 +27,19 @@ void destroy_tree(struct node *leaf) {
     }
 }
 
-void insert(char* key, struct node **leaf) {
+void insert(char* key, struct node **leaf, int depth) {
     if( *leaf == NULL ) {
         *leaf = (struct node*) malloc( sizeof( struct node ) );        
         (*leaf)->stringArr[0] = strdup(key);
         (*leaf)->stringLength = strlen(key);
         (*leaf)->numStrings = 1;
-        (*leaf)->left = NULL;
+        (*leaf)->depth = depth;
+	(*leaf)->left = NULL;
         (*leaf)->right = NULL;
     } else if (strlen(key) < (*leaf)->stringLength) {
-        insert( key, &(*leaf)->left );
+        insert( key, &(*leaf)->left, depth + 1);
     } else if (strlen(key) > (*leaf)->stringLength) {
-        insert( key, &(*leaf)->right );
+        insert( key, &(*leaf)->right, depth + 1 );
     } else {   // Case where correct node is reached and key to be added to stringArr
         
 	int i;
@@ -87,6 +89,61 @@ void printPostOrder(struct node *leaf) {
 	for(i = 0; i < leaf->numStrings; i++) {
             printf("%s...", leaf->stringArr[i]);
         }
+    }
+}
+
+void printPreOrderToFile(struct node *leaf, FILE* file) {
+    if( leaf != NULL ) {
+        int i;
+	for(i = 0; i < leaf->depth; i++) {
+	   fprintf(file, "\t\t");
+	}
+	fprintf(file, "%d: ", leaf->stringLength);
+	for(i = 0; i < leaf->numStrings; i++) {
+            fprintf(file, "%s ", leaf->stringArr[i]);
+        }
+	fprintf(file, "\n");
+            
+        printPreOrderToFile(leaf->left, file);
+        printPreOrderToFile(leaf->right, file);
+    }
+}
+
+void printInOrderToFile(struct node *leaf, FILE* file) {
+    if( leaf != NULL ) {
+        printInOrderToFile(leaf->left, file);
+
+        int i;
+	for(i = 0; i < leaf->depth; i++) {
+	   fprintf(file, "\t\t");
+	}
+	fprintf(file, "%d: ", leaf->stringLength);
+	for(i = 0; i < leaf->numStrings; i++) {
+            fprintf(file, "%s ", leaf->stringArr[i]);
+        }
+	fprintf(file, "\n");
+     
+
+        printInOrderToFile(leaf->right, file);
+    }
+}
+
+void printPostOrderToFile(struct node *leaf, FILE* file) {
+    if( leaf != NULL ) {
+        printPostOrderToFile(leaf->left, file);
+        printPostOrderToFile(leaf->right, file);
+ 
+        int i;
+	for(i = 0; i < leaf->depth; i++) {
+	   fprintf(file, "\t\t");
+	}
+	fprintf(file, "%d: ", leaf->stringLength);
+	for(i = 0; i < leaf->numStrings; i++) {
+            fprintf(file, "%s ", leaf->stringArr[i]);
+        }
+	fprintf(file, "\n");
+ 
+
     }
 }
 

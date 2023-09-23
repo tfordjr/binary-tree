@@ -5,4 +5,4 @@ make:
 	$(GCC) $(CFLAGS) -o P tree.c
 
 clean: 
-	rm -f P P0
+	rm -f P P0 *.preorder *.postorder *.inorder

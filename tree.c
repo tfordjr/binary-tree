@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 	while ((c[index] = getchar()) !=EOF && index < MAX_STRING_LENGTH - 1){
 	    if (c[index] == '\n' || c[index] == '\t' || c[index] == ' '){
 		c[index] = '\0';
-		insert(c, &root);
+		insert(c, &root, 0);
 		index = 0;
 	    } else {
 		index++;
@@ -40,28 +40,56 @@ int main(int argc, char* argv[]) {
             char input[100];
 
             while (fscanf(myFile, "%s", input) != EOF) {
-                insert(input, &root);
+                insert(input, &root, 0);
                 printf("%s...", input);
             }
     	}
+    }   // Everything above this line is the creation of the binary tree
+
+    char* inFile = (argc > 1) ? argv[1] : NULL;
+
+    char filePrefix[20];
+    if (inFile) {
+	snprintf(filePrefix, sizeof(filePrefix), "%s", inFile);
+    } else {
+	snprintf(filePrefix, sizeof(filePrefix), "out");
+    }    
+    
+    char preorderFilename[20];
+    char inorderFilename[20];
+    char postorderFilename[20];
+
+    snprintf(preorderFilename, sizeof(preorderFilename), "%s.preorder", filePrefix);
+    snprintf(inorderFilename, sizeof(inorderFilename), "%s.inorder", filePrefix);
+    snprintf(postorderFilename, sizeof(postorderFilename), "%s.postorder", filePrefix);
+
+    FILE* preorderFile = fopen(preorderFilename, "a");
+    FILE* inorderFile = fopen(inorderFilename, "a");
+    FILE* postorderFile = fopen(postorderFilename, "a");
+
+    if (preorderFile == NULL || inorderFile == NULL || postorderFile == NULL) {
+	perror("tree.c: Error: Error opening one of the output files");
+	return 1;
     }
 
-	// This happens no matter what path you use to create binary tree
+    fprintf(preorderFile, "Pre Order:\n");
+    printPreOrderToFile(root, preorderFile);
 
-    printf("\n\tPre Order:\n");
-    printPreOrder(root);
+    fprintf(inorderFile, "In Order:\n");
+    printInOrderToFile(root, inorderFile);
 
-    printf("\n\tIn Order:\n");
-    printInOrder(root);
-
-    printf("\n\tPost Order:\n");
-    printPostOrder(root);
+    fprintf(postorderFile, "Post Order:\n");
+    printPostOrderToFile(root, postorderFile);
 
     printf("\n\tDestroying Tree...\n");
     destroy_tree(root);
 
     if(myFile)
 	fclose(myFile);
-    
+
+    fclose(preorderFile);
+    fclose(inorderFile);
+    fclose(postorderFile);   
+ 
     return 0;
 }
