@@ -1,3 +1,0 @@
-C:/Users/Terry/CLionProjects/binarytree/cmake-build-debug/CMakeFiles/binarytree.dir
-C:/Users/Terry/CLionProjects/binarytree/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Terry/CLionProjects/binarytree/cmake-build-debug/CMakeFiles/rebuild_cache.dir

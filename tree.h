@@ -1,10 +1,11 @@
-#ifndef BINTREESTRINGS_H
-#define BINTREESTRINGS_H
+#ifndef TREE_H
+#define TREE_H
 #define MAX_SIZE 10
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 struct node {
     char* stringArr[MAX_SIZE];
@@ -38,15 +39,27 @@ void insert(char* key, struct node **leaf) {
     } else if (strlen(key) > (*leaf)->stringLength) {
         insert( key, &(*leaf)->right );
     } else {   // Case where correct node is reached and key to be added to stringArr
-        (*leaf)->stringArr[(*leaf)->numStrings] = strdup(key);
-        (*leaf)->numStrings++;
+        
+	int i;
+	bool duplicate = false;
+	for (i = 0; i < (*leaf)->numStrings;i++) {    
+	    if (strcmp(key, (*leaf)->stringArr[i]) == 0) {
+	 	duplicate = true;   
+		break; 
+	    }
+	}
+        if (!duplicate) {
+	    (*leaf)->stringArr[(*leaf)->numStrings] = strdup(key);
+            (*leaf)->numStrings++;
+	}	
     }
 }
 
 
 void printPreOrder(struct node *leaf) {
     if( leaf != NULL ) {
-        for(int i = 0; i < leaf->numStrings; i++) {
+        int i;
+	for(i = 0; i < leaf->numStrings; i++) {
             printf("%s...", leaf->stringArr[i]);
         }
             
@@ -58,7 +71,8 @@ void printPreOrder(struct node *leaf) {
 void printInOrder(struct node *leaf) {
     if( leaf != NULL ) {
         printInOrder(leaf->left);
-        for(int i = 0; i < leaf->numStrings; i++) {
+        int i;
+	for(i = 0; i < leaf->numStrings; i++) {
             printf("%s...", leaf->stringArr[i]);
         }
         printInOrder(leaf->right);
@@ -69,7 +83,8 @@ void printPostOrder(struct node *leaf) {
     if( leaf != NULL ) {
         printPostOrder(leaf->left);
         printPostOrder(leaf->right);
-        for(int i = 0; i < leaf->numStrings; i++) {
+ 	int i;
+	for(i = 0; i < leaf->numStrings; i++) {
             printf("%s...", leaf->stringArr[i]);
         }
     }
