@@ -15,15 +15,21 @@ int main() {
         char input[100];
 
         while (fscanf(myFile, "%s", input) != EOF) {
-            insert(input, &root, strlen(input));
+            insert(input, &root);
             printf("%s...", input);
         }
     }
 
-    printf("\nPrinting Tree Pre Order!!!...");
-    printPreOrder(root, 0);
+    printf("\n\tPre Order:\n");
+    printPreOrder(root);
 
-    printf("\nDestroying Tree...");
+    printf("\n\tIn Order:\n");
+    printInOrder(root);
+
+    printf("\n\tPost Order:\n");
+    printPostOrder(root);
+
+    printf("\n\tDestroying Tree...");
     destroy_tree(root);
 
     fclose(myFile);
