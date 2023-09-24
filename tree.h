@@ -28,10 +28,10 @@ void destroy_tree(struct node *leaf) {
 }
 
 void insert(char* key, struct node **leaf, int depth) {
-    if( *leaf == NULL ) {
-        *leaf = (struct node*) malloc( sizeof( struct node ) );        
-        (*leaf)->stringArr[0] = strdup(key);
-        (*leaf)->stringLength = strlen(key);
+    if( *leaf == NULL ) {          // Create new node if none exists with same string length as given string
+        *leaf = (struct node*) malloc( sizeof( struct node ) );    // Dynamic memory for each node
+        (*leaf)->stringArr[0] = strdup(key);       // interestingly without strdup() throughout this function, 
+        (*leaf)->stringLength = strlen(key);       // the last provided string will be in every position of the BST
         (*leaf)->numStrings = 1;
         (*leaf)->depth = depth;
 	(*leaf)->left = NULL;
@@ -40,9 +40,8 @@ void insert(char* key, struct node **leaf, int depth) {
         insert( key, &(*leaf)->left, depth + 1);
     } else if (strlen(key) > (*leaf)->stringLength) {
         insert( key, &(*leaf)->right, depth + 1 );
-    } else {   // Case where correct node is reached and key to be added to stringArr
-        
-	int i;
+    } else {   // Case where correct node is reached and key to be added to stringArr        
+	int i;       // Had to create int i for for loop here to avoid having to compile with c99 rules
 	bool duplicate = false;
 	for (i = 0; i < (*leaf)->numStrings;i++) {    
 	    if (strcmp(key, (*leaf)->stringArr[i]) == 0) {
@@ -50,7 +49,7 @@ void insert(char* key, struct node **leaf, int depth) {
 		break; 
 	    }
 	}
-        if (!duplicate) {
+        if (!duplicate) {         // Have to be careful to create a set without duplicates using an array
 	    (*leaf)->stringArr[(*leaf)->numStrings] = strdup(key);
             (*leaf)->numStrings++;
 	}	
@@ -58,7 +57,7 @@ void insert(char* key, struct node **leaf, int depth) {
 }
 
 
-void printPreOrder(struct node *leaf) {
+void printPreOrder(struct node *leaf) {       // Print PreOrder Traversal to Std out
     if( leaf != NULL ) { 
 	int i;
 	for(i = 0; i < leaf->numStrings; i++) {
@@ -70,7 +69,7 @@ void printPreOrder(struct node *leaf) {
     }
 }
 
-void printInOrder(struct node *leaf) {
+void printInOrder(struct node *leaf) {     // Print InOrder Traversal to Std out
     if( leaf != NULL ) {
         printInOrder(leaf->left);
         int i;
@@ -81,7 +80,7 @@ void printInOrder(struct node *leaf) {
     }
 }
 
-void printPostOrder(struct node *leaf) {
+void printPostOrder(struct node *leaf) {        // Print PostOrder Traversal to Std out
     if( leaf != NULL ) {
         printPostOrder(leaf->left);
         printPostOrder(leaf->right);
@@ -92,7 +91,7 @@ void printPostOrder(struct node *leaf) {
     }
 }
 
-void printPreOrderToFile(struct node *leaf, FILE* file) {
+void printPreOrderToFile(struct node *leaf, FILE* file) {    // Print PreOrder Traversal to output file
     if( leaf != NULL ) {
 	int i;
 	for(i = 0; i < leaf->depth; i++) {
@@ -109,7 +108,7 @@ void printPreOrderToFile(struct node *leaf, FILE* file) {
     }
 }
 
-void printInOrderToFile(struct node *leaf, FILE* file) {
+void printInOrderToFile(struct node *leaf, FILE* file) {      // Print InOrder Traversal to output file
     if( leaf != NULL ) {
         printInOrderToFile(leaf->left, file);
 	
@@ -128,7 +127,7 @@ void printInOrderToFile(struct node *leaf, FILE* file) {
     }
 }
 
-void printPostOrderToFile(struct node *leaf, FILE* file) {
+void printPostOrderToFile(struct node *leaf, FILE* file) {       // Print PostOrder Traversal to output file
     if( leaf != NULL ) {
         printPostOrderToFile(leaf->left, file);
         printPostOrderToFile(leaf->right, file);
