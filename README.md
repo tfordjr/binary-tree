@@ -19,3 +19,7 @@ providing more than one arg will result in the termination of the program.
 Regardless of input method, the given input strings will be used inserted into a binary tree. 
 From this binary tree, three output files will be generated for the output of the binary tree in pre, post, and inorder.
 
+I opted to stick with c completely and not use any c++ containers because I'm in 4760 and 3780 as well and
+trying to stay sharp on using c on delmar.
+
+

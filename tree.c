@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
     	char c[MAX_STRING_LENGTH];    // Character buffer array
 	int index = 0;
 
-	while ((c[index] = getchar()) !=EOF && index < MAX_STRING_LENGTH - 1){  // buffer collects words letter by letter
+	while ((c[index] = getchar()) !=EOF && index < MAX_STRING_LENGTH - 1){ //buffer collects words by letter 
 	    if (c[index] == '\n' || c[index] == '\t' || c[index] == ' '){
 		c[index] = '\0';
 		insert(c, &root, 0);     // once word is found, it is inserted into the binary tree
