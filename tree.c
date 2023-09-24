@@ -4,6 +4,7 @@
 #include "tree.h"
 #define MAX_STRING_LENGTH 20
 
+void fileOutput(char*); 
 
 int main(int argc, char* argv[]) {
     FILE* myFile = NULL;
@@ -40,14 +41,21 @@ int main(int argc, char* argv[]) {
             char input[100];
 
             while (fscanf(myFile, "%s", input) != EOF) {
-                insert(input, &root, 0);
-                printf("%s...", input);
+                insert(input, &root, 0);                
             }
     	}
     }   // Everything above this line is the creation of the binary tree
 
     char* inFile = (argc > 1) ? argv[1] : NULL;
+    fileOutput(inFile);
 
+    if(myFile)
+	fclose(myFile);
+
+    return 0;
+}
+
+void fileOutput(char* inFile) {
     char filePrefix[20];
     if (inFile) {
 	snprintf(filePrefix, sizeof(filePrefix), "%s", inFile);
@@ -69,27 +77,15 @@ int main(int argc, char* argv[]) {
 
     if (preorderFile == NULL || inorderFile == NULL || postorderFile == NULL) {
 	perror("tree.c: Error: Error opening one of the output files");
-	return 1;
+	exit(0);
     }
-
-    fprintf(preorderFile, "Pre Order:\n");
+    
     printPreOrderToFile(root, preorderFile);
-
-    fprintf(inorderFile, "In Order:\n");
     printInOrderToFile(root, inorderFile);
-
-    fprintf(postorderFile, "Post Order:\n");
     printPostOrderToFile(root, postorderFile);
-
-    printf("\n\tDestroying Tree...\n");
     destroy_tree(root);
-
-    if(myFile)
-	fclose(myFile);
 
     fclose(preorderFile);
     fclose(inorderFile);
-    fclose(postorderFile);   
- 
-    return 0;
+    fclose(postorderFile);    
 }

@@ -59,8 +59,8 @@ void insert(char* key, struct node **leaf, int depth) {
 
 
 void printPreOrder(struct node *leaf) {
-    if( leaf != NULL ) {
-        int i;
+    if( leaf != NULL ) { 
+	int i;
 	for(i = 0; i < leaf->numStrings; i++) {
             printf("%s...", leaf->stringArr[i]);
         }
@@ -94,7 +94,7 @@ void printPostOrder(struct node *leaf) {
 
 void printPreOrderToFile(struct node *leaf, FILE* file) {
     if( leaf != NULL ) {
-        int i;
+	int i;
 	for(i = 0; i < leaf->depth; i++) {
 	   fprintf(file, "\t\t");
 	}
@@ -112,7 +112,7 @@ void printPreOrderToFile(struct node *leaf, FILE* file) {
 void printInOrderToFile(struct node *leaf, FILE* file) {
     if( leaf != NULL ) {
         printInOrderToFile(leaf->left, file);
-
+	
         int i;
 	for(i = 0; i < leaf->depth; i++) {
 	   fprintf(file, "\t\t");
@@ -132,7 +132,7 @@ void printPostOrderToFile(struct node *leaf, FILE* file) {
     if( leaf != NULL ) {
         printPostOrderToFile(leaf->left, file);
         printPostOrderToFile(leaf->right, file);
- 
+
         int i;
 	for(i = 0; i < leaf->depth; i++) {
 	   fprintf(file, "\t\t");
