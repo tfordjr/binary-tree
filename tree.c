@@ -65,7 +65,7 @@ void fileOutput(char* inFile) {
     char inorderFilename[20];
     char postorderFilename[20];
 
-    snprintf(preorderFilename, sizeof(preorderFilename), "%s.preorder", filePrefix);  // append suffixes to filenames
+    snprintf(preorderFilename, sizeof(preorderFilename), "%s.preorder", filePrefix); //fix suffixes to filenames
     snprintf(inorderFilename, sizeof(inorderFilename), "%s.inorder", filePrefix);
     snprintf(postorderFilename, sizeof(postorderFilename), "%s.postorder", filePrefix);
 
@@ -73,7 +73,7 @@ void fileOutput(char* inFile) {
     FILE* inorderFile = fopen(inorderFilename, "a");
     FILE* postorderFile = fopen(postorderFilename, "a");
 
-    if (preorderFile == NULL || inorderFile == NULL || postorderFile == NULL) {   // File open operation error checking
+    if (preorderFile == NULL || inorderFile == NULL || postorderFile == NULL) { //fopen operation error checking
 	perror("tree.c: Error: Error opening one of the output files");
 	exit(0);
     }
